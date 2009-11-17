@@ -4,7 +4,7 @@
    <meta http-equiv="Content-Type"
          content="application/xhtml+xml;charset=UTF-8" />
 
-  <title>{title}</title>
+  <title>play-board</title>
 </head>
 <body>
   <?php foreach($posts as $post): ?>

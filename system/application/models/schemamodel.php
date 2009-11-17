@@ -15,8 +15,7 @@ class SchemaModel extends Model
     $this->create_tag_table();
     $this->create_hit_table();
     $this->create_validation_ticket_table();
-    $this->create_hit_plus();
-    $this->create_hit_minus();
+    $this->create_hit_post_table();
   }
   private function create_user_table()
   {
@@ -49,7 +48,7 @@ class SchemaModel extends Model
                             'constraint'=>20,
                             'null'=>FALSE
                             ),
-                   'name'=>array(
+                   'url_name'=>array(
                            'type'=>'varchar',
                            'constraint'=>20,
                            'null'=>FALSE
@@ -112,7 +111,7 @@ class SchemaModel extends Model
                             'constraint'=>20,
                             'null'=>FALSE
                             ),
-                   'name'=>array(
+                   'url_name'=>array(
                            'type'=>'varchar',
                            'constraint'=>20,
                            'null'=>FALSE
@@ -144,15 +143,15 @@ class SchemaModel extends Model
     $this->dbforge->add_field($ticket_field);
     $this->dbforge->create_table($this->table_prefix.'validation_ticket',TRUE);
   }
-  private function create_hit_plus()
+  private function create_hit_post_table()
   {
-    $hit_plus_field = array(
+    $hit_post_field = array(
                       'user_id'=>array(
                               'type'=>'int',
                               'constraint'=>9,
                               'null'=>FALSE
                               ),
-                      'hit_post_id'=>array(
+                      'hit_id'=>array(
                                    'type'=>'int',
                                    'constraint'=>9,
                                    'null'=>FALSE
@@ -160,33 +159,16 @@ class SchemaModel extends Model
                       'body'=>array(
                               'type'=>'text',
                               'null'=>FALSE
-                              )
-                      );
-    $this->dbforge->add_field('id');
-    $this->dbforge->add_field($hit_plus_field);
-    $this->dbforge->create_table($this->table_prefix.'hit_plus',TRUE);
-  }
-  private function create_hit_minus()
-  {
-    $hit_minus_field = array(
-                      'user_id'=>array(
-                              'type'=>'int',
-                              'constraint'=>9,
-                              'null'=>FALSE
                               ),
-                      'hit_post_id'=>array(
-                                   'type'=>'int',
-                                   'constraint'=>9,
-                                   'null'=>FALSE
-                                   ),
-                      'body'=>array(
-                              'type'=>'text',
-                              'null'=>FALSE
-                              )
+                      'agree'=>array(
+                               'type'=>'boolean',
+                               'default'=>FALSE
+                               'null'=>FALSE
+                               )
                       );
     $this->dbforge->add_field('id');
-    $this->dbforge->add_field($hit_minus_field);
-    $this->dbforge->create_table($this->table_prefix.'hit_minus',TRUE);
+    $this->dbforge->add_field($hit_post_field);
+    $this->dbforge->create_table($this->table_prefix.'hit_post',TRUE);
   }
 }
 ?>

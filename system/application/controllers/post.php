@@ -21,7 +21,7 @@ class Post extends Controller
       $this->load->model('PlayModel','play_model');
       if($this->play_model->find_by_title($board_title)) {
         $data = array('title' => 'New-Posting','where'=>$board_title);
-        $this->parser->parse('post/new.php',$data);
+        $this->load->view('post/new.php',$data);
       } else {
         echo 'board-error';
       }
@@ -29,9 +29,9 @@ class Post extends Controller
       echo 'error';
     }
   }
-  public function create($board_title)
+  public function create($board_name)
   {
-    if($this->post_model->new_post($_POST,$board_title,$this->user_id)){
+    if($this->post_model->new_post($_POST,$board_name,$this->user_id)){
       echo "post create succesfully";
     } else {
       echo "post failed";

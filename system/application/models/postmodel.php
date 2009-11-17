@@ -5,18 +5,17 @@ class PostModel extends Model
   {
     parent::Model();
   }
-  public function new_post($post,$board_title,$user_id)
+  public function new_post($post,$board_name,$user_id)
   {
-    $this->load->model('tagmodel','tag');
     $this->db->select('id');
-    $board = $this->db->get_where('play_board',array('title' => $board_title));
+    $board = $this->db->get_where('play_board',array('url_name'=>$board_name));
     $board = $board->result();
 
     $content = array('body' =>$post['body'],'board_id' => $board[0]->id,
                      'user_id' => $user_id);
     $posting = $this->create_post($content);
-    $tag = $this->tag->create_tag($post['tag'],$posting[0]->id);
-
+    $tag = $this->create_tag($post['tag'],$posting[0]->id);
+    
     if($posting && $tag) {
       return true;
     } else {
@@ -48,6 +47,22 @@ class PostModel extends Model
       return;
     }
     return $r_query;
+  }
+
+  public function create_tag($post_tag,$post_id)
+  {
+    if(!empty($post_tag)) {
+      $tags = explode(' ',$post_tag);
+      foreach($tags as $tag) {
+        try {
+          $this->db->insert('play_tag',array('post_id'=>$post_id,'body'=>$tag));
+        } catch(Exception $e){
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
   }
 }
 ?>

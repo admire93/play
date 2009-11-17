@@ -4,10 +4,10 @@
   <meta http-equiv="Content-Type"
         content="application/xhtml+xml;charset=UTF-8" />
 
-  <title>{title}</title>
+  <title>post-write</title>
 </head>
 <body>
-<?=form_open('/post/create/{where}')?>
+<?=form_open('/post/create/'.$where)?>
 
   <?=form_fieldset('Post-write');?>
     <?=form_textarea(array('name' => 'body','id' => 'body'))?>

@@ -5,9 +5,9 @@ class PlayModel extends Model
   {
     parent::Model();
   }
-  public function find_by_title($board_title)
+  public function find_by_title($board_name)
   {
-    $query = $this->db->get_where('play_board',array('title' => $board_title));
+    $query = $this->db->get_where('play_board',array('url_name'=>$board_name));
     if(empty($query)) {
       return false;
     } else {

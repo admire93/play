@@ -19,10 +19,20 @@ class Main extends Controller
       $this->load->view('login/success',$data);
     }
   }
-  public function test($alias)
+  public function test()
   {
-    $this->load->model('UserModel','user_model');
-    $this->user_model->find_by_alias($alias);
+    $this->load->helper('text');
+    $abc = "
+<?php
+class Main extends Controller
+{
+  public function Main()
+  {
+    parent::Controller();
+  }
+}
+?>";
+    echo highlight_code($abc);
   }
 }
 ?>
