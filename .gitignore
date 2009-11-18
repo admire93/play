@@ -1,3 +1,4 @@
 *.swp
 system/application/config/email.php
 system/application/config/database.php
+system/application/upload/*

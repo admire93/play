@@ -65,11 +65,6 @@ class SchemaModel extends Model
                           'type'=>'text',
                           'null'=>FALSE
                           ),
-                  'music_id'=>array(
-                              'type'=>'int',
-                              'constraint'=>10,
-                              'null'=>TRUE
-                              ),
                   'board_id'=>array(
                               'type'=>'int',
                               'constraint'=>10,
@@ -79,7 +74,10 @@ class SchemaModel extends Model
                              'type'=>'int',
                              'constraint'=>10,
                              'null'=>FALSE
-                             )
+                             ),
+                  'created_at'=>array(
+                                'type'=>'timestamp'
+                                )
                   );
     $this->dbforge->add_field('id');
     $this->dbforge->add_field($post_field);

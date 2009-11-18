@@ -31,10 +31,23 @@ class Post extends Controller
   }
   public function create($board_name)
   {
-    if($this->post_model->new_post($_POST,$board_name,$this->user_id)){
-      echo "post create succesfully";
+    if(empty($_POST)) {
+      return;
     } else {
-      echo "post failed";
+      if($this->post_model->new_post($_POST,$board_name,$this->user_id)){
+        $config['upload_path'] = BASEPATH . 'upload/';
+        $config['allowed_types'] = 'mp3|wma';
+        $config['max_size'] ='90000';
+        $this->load->library('upload',$config);
+        if(!$this->upload->do_upload())
+        {
+          $error = array('error'=>$this->upload->display_errors());
+          $this->load->view('error/upload',$error);
+        }
+        echo "post create succesfully";
+      } else {
+        echo "post failed";
+      }
     }
   }
   public function view($alias)
@@ -42,6 +55,10 @@ class Post extends Controller
     $posts = $this->post_model->get_user_posts($alias);  
     $data = array('posts' => $posts,'title'=> 'Post :: View');
     $this->load->view('post/view',$data);
+  }
+  public function test($board_name)
+  {
+    var_dump($_POST);
   }
 }
 ?>

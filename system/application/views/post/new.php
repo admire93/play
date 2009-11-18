@@ -7,10 +7,11 @@
   <title>post-write</title>
 </head>
 <body>
-<?=form_open('/post/create/'.$where)?>
+<?=form_open_multipart('/post/create/'.$where)?>
 
   <?=form_fieldset('Post-write');?>
     <?=form_textarea(array('name' => 'body','id' => 'body'))?>
+    <?=form_upload(array('id'=>'userfile','name'=>'userfile'))?>
   <?=form_fieldset_close()?>
   
   <?=form_fieldset('Post-tag');?>

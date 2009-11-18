@@ -40,7 +40,9 @@ class PostModel extends Model
                              from play_post p 
                              inner join play_user u
                              on p.user_id = u.id
-                             where u.alias = '.'\''.$alias.'\''
+                             where u.alias = '.'\''.$alias.'\'
+                             order by created_at desc
+                            '
                            );
     $r_query = $query->result();
     if(empty($r_query)) {
