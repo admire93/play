@@ -22,17 +22,17 @@ class Post extends Controller
       $this->load->view('/error/upload',$data);
     } else {
       $config['upload_path'] = BASEPATH . 'upload/';
-      $config['allowed_types'] = 'wma|mp3|jpg';
+      $config['allowed_types'] = 'wma|mp3|png|gif';
       $config['max_size'] ='9000';
       $this->load->library('upload',$config);
       $this->upload->do_upload();
 
-      $this->load->model('musicmodel','music');
       $file = $this->upload->data();
-      if($this->post_model->new_post($_POST,$board_name,$this->user_id) 
-         &&$this->music->create($_POST['file_name'],$file['file_name'])){
+      if($this->post_model->new_post($_POST,$board_name,$file['file_name'],$this->user_id)) {
         redirect('/play/board/'.$board_name);
-      }  
+      } else {
+        redirect('/error/upload/');
+      }
     }
   }
   public function view($alias)
@@ -40,10 +40,6 @@ class Post extends Controller
     $posts = $this->post_model->get_user_posts($alias);  
     $data = array('posts' => $posts,'title'=> 'Post :: View');
     $this->load->view('post/view',$data);
-  }
-  public function test($board_name)
-  {
-    var_dump($_POST);
   }
 }
 ?>

@@ -13,6 +13,7 @@ class Play extends Controller
     }
     $this->load->helper('playmarkdown');
     $this->load->model('tagmodel','tag');
+    $this->load->model('postmodel','post');
   }
   public function index()
   {
@@ -66,15 +67,15 @@ class Play extends Controller
   }
   public function random()
   {
-    $this->load->model('postmodel','post');
     $this->load->view('play/random',array('posts'=>$this->post->random()));
   }
   public function music($alias)
   {
     echo $alias . '`s music-list';
   }
-  public function test()
+  public function my($alias)
   {
+    $this->load->view('play/my',array('posts'=>$this->post->get_user_posts($alias)));   
   }
 }
 ?>

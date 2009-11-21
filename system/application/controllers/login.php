@@ -16,6 +16,7 @@ class Login extends Controller
       $user_info = $this->user_model->find_by_alias($_POST['alias']);
       if(!empty($user_info)&&$user_info->password_hash == $password_hash) {
         $this->session->set_userdata('user_id',$user_info->id);
+        $this->session->set_userdata('alias',$user_info->alias);
         redirect('/play/');
       } else {
         $this->load->helper(array('html','form','url','asset'));
@@ -32,6 +33,7 @@ class Login extends Controller
   public function out()
   {
     $this->session->unset_userdata('user_id'); 
+    $this->session->unset_userdata('alias');
     redirect('/play');
   }
 }
