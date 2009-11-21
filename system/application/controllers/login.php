@@ -14,11 +14,12 @@ class Login extends Controller
       $password_hash = $this->hash->convert(array($_POST['password'],$_POST['alias']));
 
       $user_info = $this->user_model->find_by_alias($_POST['alias']);
-      if($user_info->password_hash == $password_hash) {
+      if(!empty($user_info)&&$user_info->password_hash == $password_hash) {
         $this->session->set_userdata('user_id',$user_info->id);
-        redirect('/main');
+        redirect('/play/');
       } else {
-        $this->recheck();
+        $this->load->helper(array('html','form','url','asset'));
+        $this->load->view('login/recheck');
       }
     } else {
       redirect('/error/wrong');
@@ -31,7 +32,7 @@ class Login extends Controller
   public function out()
   {
     $this->session->unset_userdata('user_id'); 
-    redirect('/main');
+    redirect('/play');
   }
 }
 ?>

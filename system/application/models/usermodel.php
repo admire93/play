@@ -37,5 +37,17 @@ class UserModel extends Model
     }
     return $r_query[0];
   }
+  public function update($change_password,$alias)
+  {
+    $this->load->library('hash');
+    $password_hash = $this->hash->convert(array($change_password,$alias));
+    $data = array('password_hash'=>$password_hash);
+    $where = array('alias'=>$alias);
+    
+    if(!$this->db->update('play_user',$data,$where)) {
+      return false;
+    }
+    return true;
+  }
 }
 ?>

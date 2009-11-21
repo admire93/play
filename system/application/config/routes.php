@@ -40,8 +40,8 @@
 |
 */
 
-$route['default_controller'] = "main";
-$route['scaffolding_trigger'] = "scaffold";
+$route['default_controller'] = "play";
+$route['scaffolding_trigger'] = "";
 
 
 /* End of file routes.php */

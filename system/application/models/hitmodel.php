@@ -47,7 +47,7 @@ class HitModel extends Model
 
       $hit_boards = $this->get_hit_post_by_name($post['board']);
       $hit_board = $hit_boards[0];
-      $idea_posts=$this->get_idea_post($hit_board->id,array('user_id'=>$user_id));
+      $idea_posts=$this->get_idea_posts($hit_board->id,array('user_id'=>$user_id));
       $idea_post = $idea_posts[0];
       $data = array('body'=>$post['body']); 
 
@@ -66,7 +66,10 @@ class HitModel extends Model
       }
 
       if($this->count_post($hit_board->id)) {
-        return 'idea post is done';
+        $data = array('title'=>$post['title'],'url_name'=>$post['board']);
+        $this->db->insert('play_board',$data);
+        $this->db->delete('play_hit',array('id'=>$hit_board->id));
+        $this->db->delete('play_hit_post',array('hit_id'=>$hit_board->id));
       }
     } catch(Exception $e) {
       return false;
@@ -91,7 +94,7 @@ class HitModel extends Model
     return false;
   }
 
-  public function get_idea_post($hit_id,$option = array()) 
+  public function get_idea_posts($hit_id,$option = array()) 
   {
     $_query = 'select a.* 
                from (select p.*,u.alias,u.email 

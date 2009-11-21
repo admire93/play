@@ -16,6 +16,7 @@ class SchemaModel extends Model
     $this->create_hit_table();
     $this->create_validation_ticket_table();
     $this->create_hit_post_table();
+    $this->create_music_table();
   }
   private function create_user_table()
   {
@@ -160,13 +161,36 @@ class SchemaModel extends Model
                               ),
                       'agree'=>array(
                                'type'=>'boolean',
-                               'default'=>FALSE
+                               'default'=>FALSE,
                                'null'=>FALSE
                                )
                       );
     $this->dbforge->add_field('id');
     $this->dbforge->add_field($hit_post_field);
     $this->dbforge->create_table($this->table_prefix.'hit_post',TRUE);
+  }
+  private function create_music_table()
+  {
+    $music_field = array(
+                   'name' => array(
+                             'type' => 'varchar',
+                             'constraint' => 20,
+                             'null' => false
+                             ),
+                   'real_path' => array(
+                                  'type' => 'text',
+                                  'constraint' => 100,
+                                  'null' => false
+                                  ),
+                   'post_id' => array(
+                                'type'=>'int',
+                                'constraint' => 9,
+                                'null'=>false
+                                )
+                   );
+    $this->dbforge->add_field('id');
+    $this->dbforge->add_field($music_field);
+    $this->dbforge->create_table($this->table_prefix.'music',TRUE);
   }
 }
 ?>

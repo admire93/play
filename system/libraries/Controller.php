@@ -58,7 +58,7 @@ class Controller extends CI_Base {
     if(empty($user)) {
       return false;
     }
-    return $user;
+    return (int)($user);
   }
 	// --------------------------------------------------------------------
 

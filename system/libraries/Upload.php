@@ -140,7 +140,7 @@ class CI_Upload {
 		if ( ! isset($_FILES[$field]))
 		{
 			$this->set_error('upload_no_file_selected');
-			return FALSE;
+			return;
 		}
 		
 		// Is the upload path valid?

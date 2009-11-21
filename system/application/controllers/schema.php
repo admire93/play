@@ -8,7 +8,7 @@ class Schema extends Controller
   public function run()
   {
     $this->load->model('schemamodel','schema');
-    #$this->schema->run();
+    $this->schema->run();
   }
 }
 ?>

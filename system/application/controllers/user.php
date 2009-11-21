@@ -7,6 +7,7 @@ class User extends Controller
     $this->load->helper(array('html','form','url'));
     $this->load->library(array('form_validation'));
     $this->load->model('validationticketmodel','ticket'); 
+    $this->load->model('UserModel','user_model');     
   }
   public function sign_up($ticket='')
   {
@@ -22,7 +23,6 @@ class User extends Controller
   }
   public function create($valid_ticket)
   {
-    $this->load->model('UserModel','user_model');     
     $ticket = $this->ticket->find_by_ticket($valid_ticket);
     $valid_ticket_id = $ticket->id;
     #validation  
@@ -57,7 +57,7 @@ class User extends Controller
     $this->email->subject('play.0pen.us :: Validation Email');
     $this->email->message($src);
     if(!$this->email->send()) {
-      echo $this->email->print_debugger();
+      echo 'some error occured';#$this->email->print_debugger();
     } else {
       echo 'email was succesfuly sent your email account';
     }
@@ -88,6 +88,38 @@ class User extends Controller
       return false;
     }
     return true;
+  }
+  public function my($alias)
+  {
+    $user_id = $this->get_user_id();
+    $user = $this->user_model->find($user_id);
+
+    
+
+    $this->load->library('hash');
+
+    if(!empty($_POST) && $user->password_hash == $this->hash->convert(array($_POST['password'],$alias))) {
+      $this->load->view('user/preference',array('user'=>$user)); 
+    } else if(!empty($user) && $user->alias == $alias) {
+      $this->load->view('user/password_confirm'); 
+    } else {
+      redirect('/');
+    }
+  }
+  public function update()
+  {
+    if(!empty($_POST)) {
+      $this->form_validation->set_rules('password','password',
+                                        'required|matches[password_confirm]');
+      $this->form_validation->set_rules('password_confirm',
+                                        'password-confrim','required');
+
+      if(!$this->user_model->update($_POST['password'],$_POST['alias'])) {
+        redirect('/error'); 
+      } else {
+        redirect('/login/out');
+      }
+    }
   }
 }
 ?>

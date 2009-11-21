@@ -5,7 +5,7 @@ class PostModel extends Model
   {
     parent::Model();
   }
-  public function new_post($post,$board_name,$user_id)
+  public function new_post($post,$board_name,$file_name='',$user_id)
   {
     $this->db->select('id');
     $board = $this->db->get_where('play_board',array('url_name'=>$board_name));
@@ -15,8 +15,11 @@ class PostModel extends Model
                      'user_id' => $user_id);
     $posting = $this->create_post($content);
     $tag = $this->create_tag($post['tag'],$posting[0]->id);
-    
-    if($posting && $tag) {
+    $music = true;
+    if(!empty($file_name)) {
+      $music=$this->create_music($post['file_name'],$file_name,$posting[0]->id);
+    }
+    if($posting && $tag && $music) {
       return true;
     } else {
       return false;
@@ -66,5 +69,33 @@ class PostModel extends Model
     }
     return false;
   }
+  public function create_music($music_name,$real_name,$post_id)
+  {
+    $data = array('name'=>$music_name,
+                  'real_path'=>BASEPATH.'upload/'.$real_name,
+                  'post_id'=>$post_id);
+    if(!$this->db->insert('play_music',$data)) {
+      return false;
+    }
+    return true;
+  }
+  public function random()
+  {
+    $query=$this->db->query('
+                             select p.*,u.alias 
+                             from play_post p 
+                             inner join play_user u
+                             on p.user_id = u.id
+                             order by rand()
+                             limit 5;
+                            '
+                           );
+    $r_query = $query->result();
+    if(empty($r_query)) {
+      return;
+    }
+    return $r_query;
+  }
 }
 ?>
+

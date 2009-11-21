@@ -14,40 +14,25 @@ class Post extends Controller
       redirect('/error/login_require');
     }
   }
-  public function write($preposition = '')
-  {
-    $board_title = $this->uri->segment(4);
-    if($preposition == 'on') {
-      $this->load->model('PlayModel','play_model');
-      if($this->play_model->find_by_title($board_title)) {
-        $data = array('title' => 'New-Posting','where'=>$board_title);
-        $this->load->view('post/new.php',$data);
-      } else {
-        echo 'board-error';
-      }
-    } else {
-      echo 'error';
-    }
-  }
   public function create($board_name)
   {
+    
     if(empty($_POST)) {
-      return;
+      $data=array('error'=>$this->upload->display_errors());
+      $this->load->view('/error/upload',$data);
     } else {
-      if($this->post_model->new_post($_POST,$board_name,$this->user_id)){
-        $config['upload_path'] = BASEPATH . 'upload/';
-        $config['allowed_types'] = 'mp3|wma';
-        $config['max_size'] ='90000';
-        $this->load->library('upload',$config);
-        if(!$this->upload->do_upload())
-        {
-          $error = array('error'=>$this->upload->display_errors());
-          $this->load->view('error/upload',$error);
-        }
-        echo "post create succesfully";
-      } else {
-        echo "post failed";
-      }
+      $config['upload_path'] = BASEPATH . 'upload/';
+      $config['allowed_types'] = 'wma|mp3|jpg';
+      $config['max_size'] ='9000';
+      $this->load->library('upload',$config);
+      $this->upload->do_upload();
+
+      $this->load->model('musicmodel','music');
+      $file = $this->upload->data();
+      if($this->post_model->new_post($_POST,$board_name,$this->user_id) 
+         &&$this->music->create($_POST['file_name'],$file['file_name'])){
+        redirect('/play/board/'.$board_name);
+      }  
     }
   }
   public function view($alias)

@@ -50,9 +50,9 @@ class Hit extends Controller
   {
     if(!empty($_POST)) {
       if($this->hit->create_hit_post($_POST)) {
-        redirect('/hit/view'.$_POST['url_name']);
+        redirect('/hit/view/'.$_POST['url_name']);
       } else {
-        echo 'error';
+        redirect('/error/board_error');
       }
     } else { 
       echo 'error';

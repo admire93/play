@@ -11,9 +11,5 @@ class TagModel extends Model
     return $query->result(); 
   }
 
-  public function return_true()
-  {
-    return true;
-  }
 }
 ?>

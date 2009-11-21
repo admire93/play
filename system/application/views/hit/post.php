@@ -24,6 +24,7 @@
   </form>
 
   <?=form_open('/hit/idea_create/')?>
+
     <?=form_fieldset('idea-disagree');?>
       <?=form_hidden('board',$this->uri->segment(3))?>
       <?=form_hidden('title',$hit->title)?>
@@ -31,10 +32,11 @@
       <?=form_input(array('name'=>'body','id'=>'body'))?>    
     <?=form_fieldset_close()?>
     <?=form_submit('submit','write')?>
+
   </form>
 
   <div id="idea_posts">
-    <?php foreach($this->hit->get_idea_post($hit->id) as $idea): ?>
+    <?php foreach($this->hit->get_idea_posts($hit->id) as $idea): ?>
       <div class ="idea_post<?=$idea->agree?>">
         <?php if($idea->agree):?>
           <span>+</span>
