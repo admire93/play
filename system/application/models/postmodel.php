@@ -98,4 +98,3 @@ class PostModel extends Model
   }
 }
 ?>
-
