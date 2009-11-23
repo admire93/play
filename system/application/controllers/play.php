@@ -14,16 +14,17 @@ class Play extends Controller
     $this->load->helper('playmarkdown');
     $this->load->model('tagmodel','tag');
     $this->load->model('postmodel','post');
+    $this->load->model('UserModel','user');
+    $this->load->model('musicmodel','music');
   }
   public function index()
   {
     $user_id = $this->get_user_id();
-    $this->load->model('UserModel','user_model');
     if(empty($user_id)) {
       $this->load->view('play/index',array("header" => "login required",
                                              "title" => "Play-Login Required"));
     } else {
-      $user = $this->user_model->find($user_id); 
+      $user = $this->user->find($user_id); 
       $data = array("title"=>"hello","user"=>$user);
       $this->load->view('play/icon_index',$data);
     }
@@ -76,6 +77,21 @@ class Play extends Controller
   public function my($alias)
   {
     $this->load->view('play/my',array('posts'=>$this->post->get_user_posts($alias)));   
+  }
+  public function add_to_my()
+  {
+    $user_id = $this->get_user_id();
+
+    if(!empty($_POST)) {
+ 
+      if(!$this->music->create_list($user_id,$_POST['music_id'])) {
+        redirect('/error/');
+      } else {
+        $user = $this->user->find($user_id);
+        redirect('/play/music/'.$user->alias);
+      }
+    }
+    redirect('/error/upload');
   }
 }
 ?>

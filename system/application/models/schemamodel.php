@@ -17,6 +17,8 @@ class SchemaModel extends Model
     $this->create_validation_ticket_table();
     $this->create_hit_post_table();
     $this->create_music_table();
+    $this->create_my_music_table();
+    $this->create_comment_table();
   }
   private function create_user_table()
   {
@@ -192,5 +194,50 @@ class SchemaModel extends Model
     $this->dbforge->add_field($music_field);
     $this->dbforge->create_table($this->table_prefix.'music',TRUE);
   }
+  private function create_my_music_table()
+  {
+    $music_field = array(
+                   'music_id' => array(
+                                'type'=>'int',
+                                'constraint' => 9,
+                                'null'=>false
+                                ),
+                   'user_id' => array(
+                                'type'=>'int',
+                                'constraint' => 9,
+                                'null'=>false
+                                )
+
+                   );
+    $this->dbforge->add_field('id');
+    $this->dbforge->add_field($music_field);
+    $this->dbforge->create_table($this->table_prefix.'my_list',TRUE);
+  }
+  private function create_comment_table()
+  {
+    $post_field = array(
+                  'body'=>array(
+                          'type'=>'text',
+                          'null'=>FALSE
+                          ),
+                  'post_id'=>array(
+                              'type'=>'int',
+                              'constraint'=>10,
+                              'null'=>FALSE
+                              ),
+                  'user_id'=>array(
+                             'type'=>'int',
+                             'constraint'=>10,
+                             'null'=>FALSE
+                             ),
+                  'created_at'=>array(
+                                'type'=>'timestamp'
+                                )
+                  );
+    $this->dbforge->add_field('id');
+    $this->dbforge->add_field($post_field);
+    $this->dbforge->create_table($this->table_prefix.'comment',TRUE);
+  }
+
 }
 ?>

@@ -96,5 +96,9 @@ class PostModel extends Model
     }
     return $r_query;
   }
+  public function find_by_created_at($data)
+  {
+    $data = strtr($data,'#',' ');
+  }
 }
 ?>

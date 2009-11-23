@@ -39,7 +39,22 @@
             <?=$tag->body?>
           <?php endforeach; ?>
         </div>
+        <?php if($music = $this->music->find_by_post_id($post->id)): ?>
+          <div id="music">
+            music: <?=$music->name?>
+
+            <?=form_open('/play/add_to_my/')?>
+              <?=form_hidden('music_id',$music->id)?>
+              <?=form_submit('submit','add')?>
+            </form>
+          </div>
+        <?php endif; ?>
       </div>
+      <div id="comments">
+        <?=anchor('/comment/write/'.$post->id,'comment-write')?>  
+        <?=anchor('/comment/view/'.$post->id,'comment-view')?>
+      </div>
+    </div>
     <?php endforeach; ?>
     <ul id="pager">
       <?php foreach($this->paging->pager($total_page,$selection) as $page): ?>
@@ -57,7 +72,6 @@
         <?php endif; ?>
       <?php endforeach; ?>
     </ul>
-  </div>
   
 </body>
 </html>

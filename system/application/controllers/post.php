@@ -35,11 +35,16 @@ class Post extends Controller
       }
     }
   }
-  public function view($alias)
+  public function view($param)
   {
-    $posts = $this->post_model->get_user_posts($alias);  
-    $data = array('posts' => $posts,'title'=> 'Post :: View');
-    $this->load->view('post/view',$data);
+    if(!empty($param)) {
+      $data = array('posts' => $posts,'title'=> 'Post :: View');
+      $posts = $this->post_model->get_user_posts($param);  
+      if(empty($param)) {
+        $posts = $this->post_model->find_by_created_at($param);
+      }
+      $this->load->view('post/view',$data);
+    }
   }
 }
 ?>

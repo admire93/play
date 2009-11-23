@@ -43,23 +43,30 @@ class User extends Controller
   }
   public function send_email()
   {
-    $this->form_validation->set_rules('email','email','required|valid_email|callback_email_check');
-    if(!$this->form_validation->run()) {
-      echo 'error';
-    }
-    $this->load->library(array('email'));
-    $ticket = $this->ticket->new_ticket($_POST['email']);
-    $src = $this->config->config['base_url'];
-    $src .= 'user/sign_up/'.$ticket;
+    if(!empty($_POST)) { 
+      $this->form_validation->set_rules('email','email','required|valid_email|callback_email_check');
 
-    $this->email->from('noreplay@play.0pen.us','noreply');
-    $this->email->to($_POST['email']);
-    $this->email->subject('play.0pen.us :: Validation Email');
-    $this->email->message($src);
-    if(!$this->email->send()) {
-      echo 'some error occured';#$this->email->print_debugger();
+      if(!$this->form_validation->run()) {
+        echo 'validation-error';
+      }
+
+      $this->load->library('email');
+      $ticket = $this->ticket->new_ticket($_POST['email']);
+      $src = $this->config->config['base_url'];
+      $src .= 'user/sign_up/'.$ticket;
+
+      $this->email->from('noreplay@play.0pen.us','noreply');
+      $this->email->to($_POST['email']);
+      $this->email->subject('play.0pen.us :: Validation Email');
+      $this->email->message($src);
+
+      if(!$this->email->send()) {
+        echo $this->email->print_debugger();
+      } else {
+        $this->load->view('error/email_success',array('email'=>$_POST['email']));
+      }
     } else {
-      echo 'email was succesfuly sent your email account';
+      echo 'empty post request';
     }
   }
 
