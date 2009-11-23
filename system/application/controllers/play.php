@@ -4,9 +4,10 @@ class Play extends Controller
   public function Play()
   {
     parent::Controller();
-    $user_id = $this->get_user_id();
     $this->load->helper(array('html','form','url','asset'));
     $func = $this->uri->segment(2) ? $this->uri->segment(2) : 'index';
+
+    $user_id = $this->get_user_id();
 
     if(empty($user_id) && $func != 'index') {
       redirect('/');
@@ -19,7 +20,7 @@ class Play extends Controller
   }
   public function index()
   {
-    $user_id = $this->get_user_id();
+    $user_id= $this->get_user_id();
     if(empty($user_id)) {
       $this->load->view('play/index',array("header" => "login required",
                                              "title" => "Play-Login Required"));
@@ -38,10 +39,9 @@ class Play extends Controller
       $post_size = $this->play->get_post_size($board_name);
 
       $total_page = (int)(ceil($post_size/POST_PER_PAGE));
-      $page = $this->uri->segment(4);
-      if(!is_integer($page)) {
-        $pabe = 1;
-      }
+
+      $page = (int)($this->uri->segment(4));
+
       $selection = min(max(1,$page),$total_page);
 
       $offset = $selection * POST_PER_PAGE;

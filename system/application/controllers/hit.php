@@ -67,5 +67,17 @@ class Hit extends Controller
     }
     redirect('/hit/view/'.$_POST['board']);
   }
+  public function top_board()
+  {
+    $tops = $this->hit->find_top_board();
+    $data = array('tops'=>$tops);
+    $this->load->view('hit/top_board',$data);
+  }
+  public function top_music()
+  {
+    $this->load->model('musicmodel','music');
+    $tops = $this->music->find_top_music();
+    $this->load->view('hit/top_music',array('tops'=>$tops));
+  }
 }
 ?>

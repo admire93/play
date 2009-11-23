@@ -14,11 +14,7 @@ class HitModel extends Model
       $query = $query->result();
     } else {
       $query = $this->db->get_where('play_hit',array('url_name'=>$board_name));
-      if(empty($query)) {
-        $query = '';
-      } else {
-        $query = $query->result();
-      }
+      $query = $query->result();
     }
     return $query;
   }
@@ -88,7 +84,7 @@ class HitModel extends Model
     $this->db->from('play_hit_post');
     $agree_post = $this->db->count_all_results();
     $proportion = round(($agree_post / $count_post) * 100);
-    if($count_post >= 2 && $proportion > 50) {
+    if($count_post >= TOTAL_HIT_POST && $proportion > AGREE_POST_PROPORTION) {
       return true;
     }
     return false;
@@ -115,6 +111,22 @@ class HitModel extends Model
       return false;
     }
     return $query->result();
+  }
+  public function find_top_board()
+  {
+    $query = $this->db->query('select * 
+                               from play_hit
+                               where id=(select hit_id 
+                                        from play_hit_post
+                                        group by hit_id
+                                        having count(*)>='.TOP_POST_LIMIT.')');
+    $query = $query->result();
+
+    if(empty($query)) {
+      return array();
+    }
+
+    return $query;
   }
 }
 ?>

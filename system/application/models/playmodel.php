@@ -16,6 +16,8 @@ class PlayModel extends Model
   }
   public function get_board_posts($board_title,$limit = '',$offset=0)
   {
+    $offset = $offset >= 5 ? 0 : $offset;
+
     $board = $this->find_by_title($board_title);
     $this->db->order_by('created_at','desc');
     if(empty($limit)) {
@@ -32,7 +34,11 @@ class PlayModel extends Model
                                order by created_at desc
                                limit 0,'.$limit
                              );
-    $query = $query ? $query->result() : '';
+    if(!empty($query)) {
+      $query = $query->result();
+    } else {
+      $query = '';
+    }
     return $query;
   }
   public function get_post_size($board_name)

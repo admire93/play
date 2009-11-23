@@ -15,8 +15,7 @@ class SchemaModel extends Model
     $this->create_tag_table();
     $this->create_hit_table();
     $this->create_validation_ticket_table();
-    $this->create_hit_post_table();
-    $this->create_music_table();
+    $this->create_hit_post_table(); $this->create_music_table();
     $this->create_my_music_table();
     $this->create_comment_table();
   }
@@ -55,7 +54,11 @@ class SchemaModel extends Model
                            'type'=>'varchar',
                            'constraint'=>20,
                            'null'=>FALSE
-                           )
+                           ),
+                   'created_at'=>array(
+                                 'type'=>'timestamp'
+                                 )
+
                    );
     $this->dbforge->add_field('id');
     $this->dbforge->add_field($board_field);
@@ -163,7 +166,7 @@ class SchemaModel extends Model
                               ),
                       'agree'=>array(
                                'type'=>'boolean',
-                               'default'=>FALSE,
+                               'default'=>0,
                                'null'=>FALSE
                                )
                       );

@@ -11,7 +11,7 @@
 |	http://example.com/
 |
 */
-$config['base_url']	= "http://play.0pen.us/";
+$config['base_url']	= "http://localhost:81/";
 
 /*
 |--------------------------------------------------------------------------

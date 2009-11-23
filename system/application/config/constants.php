@@ -37,6 +37,9 @@ define('FOPEN_WRITE_CREATE_STRICT', 			'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
 define('POST_PER_PAGE',5);
-
+define('TOTAL_HIT_POST',1);
+define('AGREE_POST_PROPORTION',20);
+define('TOP_POST_LIMIT',1);
+define('TOP_MUSIC_LIMIT',1);
 /* End of file constants.php */
 /* Location: ./system/application/config/constants.php */

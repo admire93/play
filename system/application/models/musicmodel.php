@@ -36,5 +36,23 @@ class MusicModel extends Model
     } 
     return true;
   }
+  public function find_top_music()
+  {
+    $query = 'select * 
+              from play_music
+              where id = (select music_id
+                          from play_my_list
+                          group by music_id
+                          having count(*) >= '.TOP_MUSIC_LIMIT.')
+              ';
+
+    $query = $this->db->query($query);
+    $query = $query->result();
+    if(empty($query)) {
+      return array();
+    }
+
+    return $query;
+  }
 }
 ?>

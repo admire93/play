@@ -15,8 +15,7 @@ class Comment extends Controller
     $this->load->model('commentmodel','comment');    
   }
   public function write($post_id) {
-    $this->load->view('comment/write');
-  }
+    $this->load->view('comment/write'); }
   public function create($post_id)
   {
     if(!empty($_POST)) {
@@ -27,8 +26,12 @@ class Comment extends Controller
   }
   public function view($post_id)
   {
-    $comments = $this->comment->find_by_post_id($post_id);
-    $this->load->view('comment/view',array('comments'=>$comments));
+    if(empty($_POST)) {
+      $comments = $this->comment->find_by_post_id($post_id);
+      $this->load->view('comment/view',array('comments'=>$comments));
+    } else {
+      redirect('/'); 
+    }
   }
 }
 ?>

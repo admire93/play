@@ -6,7 +6,8 @@
   <script type="text/javascript" 
           src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.js">
   </script> 
-  <?=js_load('playPost.js')?>
+  <?=js_load('jquery-1.3.2.js')?>
+  <?=js_load('play.js')?>
   <title>play-board</title>
 </head>
 <body>
@@ -40,7 +41,7 @@
           <?php endforeach; ?>
         </div>
         <?php if($music = $this->music->find_by_post_id($post->id)): ?>
-          <div id="music">
+          <div class="music">
             music: <?=$music->name?>
 
             <?=form_open('/play/add_to_my/')?>
@@ -48,28 +49,33 @@
               <?=form_submit('submit','add')?>
             </form>
           </div>
+        <?php else: ?>
+          <span class="notice">x</span>
         <?php endif; ?>
       </div>
-      <div id="comments">
-        <?=anchor('/comment/write/'.$post->id,'comment-write')?>  
-        <?=anchor('/comment/view/'.$post->id,'comment-view')?>
+      <div class="comments">
+        <?=anchor('/comment/write/'.$post->id,'comment-write',array('class'=>'comment-write'))?>  
+        <?=anchor('/comment/view/'.$post->id,'comment-view',array('class'=>'comment-view'))?>
       </div>
     </div>
     <?php endforeach; ?>
     <ul id="pager">
       <?php foreach($this->paging->pager($total_page,$selection) as $page): ?>
-        <?php if(is_array($page)):?>
-          <?php if(array_key_exists('first',$page)) { ?>
-            <li class="first"><?=anchor('/play/board/'.$board_name.'/'.$page['first'],$page['first'])?></li>
-          <?php } else if(array_key_exists('last',$page)) {?>
 
+        <?php if(is_array($page)):?>
+
+          <?php if(array_key_exists('first',$page)): ?>
+            <li class="first"><?=anchor('/play/board/'.$board_name.'/'.$page['first'],$page['first'])?></li>
+          <?php elseif(array_key_exists('last',$page)): ?>
             <li class="last"><?=anchor('/play/board/'.$board_name.'/'.$page['last'],$page['last'])?></li>
-          <?php } else if(array_key_exists('selected',$page)) {?>
+          <?php elseif(array_key_exists('selected',$page)):?>
             <li class="selected"><?=$page['selected']?></li>
-          <?php } ?>
+          <?php endif; ?>
+
         <?php else: ?>
           <li><?=anchor('/play/board/'.$board_name.'/'.$page,$page)?></li>
         <?php endif; ?>
+
       <?php endforeach; ?>
     </ul>
   
