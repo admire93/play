@@ -33,5 +33,8 @@ class Comment extends Controller
       redirect('/'); 
     }
   }
+  public function get_comment()
+  {
+  }
 }
 ?>

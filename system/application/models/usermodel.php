@@ -28,6 +28,15 @@ class UserModel extends Model
     }
     return $r_query[0];
   }
+  public function find_by_email($alias)
+  {
+    $query =  $this->db->get_where('play_user',array('email' => $email));
+    $r_query = $query->result();
+    if(empty($r_query)) {
+      return false;
+    }
+    return $r_query[0];
+  }
   public function find($id)
   {
     $query = $this->db->get_where('play_user',array('id' => $id));

@@ -13,6 +13,8 @@ class Play extends Controller
       redirect('/');
     }
     $this->load->helper('playmarkdown');
+
+    $this->load->model('playmodel','play');
     $this->load->model('tagmodel','tag');
     $this->load->model('postmodel','post');
     $this->load->model('UserModel','user');
@@ -27,12 +29,11 @@ class Play extends Controller
     } else {
       $user = $this->user->find($user_id); 
       $data = array("title"=>"hello","user"=>$user);
-      $this->load->view('play/icon_index',$data);
+      redirect('/play/board');
     }
   }
   public function board($board_name = '')
   {
-    $this->load->model('playmodel','play');
 
     if(!empty($board_name)) {
       $this->load->library('paging');
@@ -46,7 +47,6 @@ class Play extends Controller
 
       $offset = $selection * POST_PER_PAGE;
       $posts = $this->play->get_board_posts($board_name,POST_PER_PAGE,$offset);
-
       $data = array('board_title'=>$board_name,'title'=>'Board-view',
                     'posts' => $posts,
                     'board_name' => $board_name,
@@ -58,25 +58,35 @@ class Play extends Controller
       $this->load->view('play/board_index',$data);
     }
   }
-  public function search($search='')
+  public function search()
   {
-    if(!empty($_POST)) {
-      redirect('/play/search/'.$search);
-    } else {
-      echo 'search the thing';
-    }
+    $search = $this->play->search_by_title($_POST['search']);
+    $this->load->view('play/search',array('boards'=>$search));
   }
   public function random()
   {
-    $this->load->view('play/random',array('posts'=>$this->post->random()));
+    $this->load->view('play/view_posting',array('posts'=>$this->post->random(),
+                                                'title'=>'random-play'));
   }
   public function music($alias)
   {
-    echo $alias . '`s music-list';
+    if(empty($alias)) {
+      echo 'redirection somewhere';
+    } else {
+      $query = $this->music->find_user_list_by_alias($alias);
+      if(!$query) {
+        echo 'you are the loser';
+      } else {
+        $this->load->helper('create_xml');
+        $user = $this->user->find($this->get_user_id());
+        create_xml($query,$user->alias);
+        $this->load->view('play/music');
+      }
+    }
   }
   public function my($alias)
   {
-    $this->load->view('play/my',array('posts'=>$this->post->get_user_posts($alias)));   
+    $this->load->view('play/view_posting',array('posts'=>$this->post->get_user_posts($alias)));
   }
   public function add_to_my()
   {
@@ -92,6 +102,11 @@ class Play extends Controller
       }
     }
     redirect('/error/upload');
+  }
+  public function new_board()
+  {
+    $new = $this->play->get_new();
+    $this->load->view('play/new',array('new_boards'=>$new)); 
   }
 }
 ?>

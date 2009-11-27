@@ -1,0 +1,132 @@
+@color1: #00a0e9;
+@color2: #8edcf5;
+@color3: #faeeee;
+@color4: #e8f7fd;
+@color5: #aaa;
+@color6: #eee;
+
+@import url('rounded.less');
+
+* {
+  margin: 0; padding:0;
+}
+body {
+  margin: 0; padding: 0;
+}
+#wrap {
+  width: 100%;
+  margin:0; padding:0;
+}
+#wrap > #header {
+  width: 100%; height: 100px;
+  background: transparent url('/public/img/header-bg.png') repeat-x top left;
+  margin:0; padding: 0;
+  h1 {
+    margin: 20px 50px; padding: 0;
+    width: 190px; height: 60px;
+    text-indent: -500em;
+    float: left;
+    overflow: hidden;
+      a {
+        display:block;
+        width: 190px; height: 60px;
+        background: transparent url('/public/img/logo.png') no-repeat top left;
+      }
+  }
+
+  ul {
+    float: right;
+    width:360px; height: 100px;
+    margin:0; padding:0;
+    li.selected {
+      background-color: @color1;
+    }
+    li {
+      float: left;
+      width: 80px; height:100px;
+      margin: 0 20px;
+      text-indent: -500em;
+      opacity: 0.58;
+      overflow:hidden;
+      a {
+        display: block;
+        width: 60px; height: 20px;
+        margin:70px auto; padding: 0;
+      }
+      a.post {
+        background: transparent url('/public/img/menu-post.png') no-repeat top left;
+      }
+      a.play {
+        background: transparent url('/public/img/menu-play.png') no-repeat top left;
+      }
+      a.hit {
+        background: transparent url('/public/img/menu-hit.png') no-repeat top left;
+      }
+    }
+  }
+}
+
+#wrap > #body {
+  background-color: @color2;
+  margin: 0; padding: 60px 0 60px 0;
+  float: left;
+  width: 100%;
+}
+#wrap > #body > #container {
+  width: 850px;
+  margin: 0 auto; padding:0;
+}
+#wrap > #body > #container > .posts {
+  width: 530px;
+  margin: 0; padding: 20px;
+  float: left;
+  background-color: #FFF;
+  .rounded_all(10px);
+
+}
+
+#wrap > #body > #container > .sub-menu {
+  width:200px;
+  margin: 0; padding: 5px 0 5px 20px;
+  float: right;
+  background-color: #FFF;
+  .rounded_all(10px);
+}
+#wrap > #body > #container > .sub-menu > li {
+  width: 180px; height: 30px;
+  border-bottom: solid 1px #eee;
+  list-style: none;
+}
+#wrap > #body > #container > .sub-menu > li > a {
+  display: block;
+  width: 180px; height: 30px;
+  text-decoration: none;
+}
+#wrap > #body > #container > .sub-menu > li > a:hover {
+  font-size: 1.5em;
+  background-color: @color6; 
+}
+#wrap > #body > #container > .posts h1 {
+  border-left: solid 5px @color1;
+}
+#wrap > #body > #container > .posts > #pager {
+  clear: left;
+}
+#wrap > #body > #container > .posts > #pager > li {
+  display: inline;
+  a {
+    text-decoration: none;
+  }
+}
+#wrap > #body > #container > .posts > #pager > li.first:after {
+  content: '\22ef';
+}
+#wrap > #body > #container > .posts > #pager > li.last:before {
+  content: '\22ef';
+} 
+#wrap > #body > #container > .posts > #pager > li.selected {
+  font-size: 1.3em;
+}
+#footer {
+  clear: left;
+}

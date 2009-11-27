@@ -1,0 +1,11 @@
+<!ELEMENT playlist (file*)>
+<!ATTLIST playlist
+    name                CDATA   #REQUIRED
+    basedir             CDATA   #REQUIRED
+>
+
+<!ELEMENT file EMPTY>
+<!ATTLIST file
+    src             CDATA   #REQUIRED
+>
+

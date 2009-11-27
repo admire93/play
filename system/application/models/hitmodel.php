@@ -115,11 +115,12 @@ class HitModel extends Model
   public function find_top_board()
   {
     $query = $this->db->query('select * 
-                               from play_hit
-                               where id=(select hit_id 
-                                        from play_hit_post
-                                        group by hit_id
-                                        having count(*)>='.TOP_POST_LIMIT.')');
+                               from play_hit h
+                               inner join play_hit_post p
+                               on h.id = p.hit_id
+                               group by p.hit_id
+                               having count(*)>='.TOP_POST_LIMIT
+                              );
     $query = $query->result();
 
     if(empty($query)) {

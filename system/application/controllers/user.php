@@ -4,10 +4,11 @@ class User extends Controller
   public function User()
   {
     parent::Controller();
-    $this->load->helper(array('html','form','url'));
-    $this->load->library(array('form_validation'));
+    $this->load->helper(array('html','form','url','asset'));
+    $this->load->library(array('form_validation','email'));
     $this->load->model('validationticketmodel','ticket'); 
     $this->load->model('UserModel','user_model');     
+
   }
   public function sign_up($ticket='')
   {
@@ -50,7 +51,6 @@ class User extends Controller
         echo 'validation-error';
       }
 
-      $this->load->library('email');
       $ticket = $this->ticket->new_ticket($_POST['email']);
       $src = $this->config->config['base_url'];
       $src .= 'user/sign_up/'.$ticket;
@@ -127,6 +127,39 @@ class User extends Controller
         redirect('/login/out');
       }
     }
+  }
+  public function find_me()
+  {
+    $this->load->view('user/find_me');
+  }
+  public function find()
+  {
+    if(!empty($_POST)) { 
+      $this->form_validation->set_rules('email','email','required|valid_email|callback_email_check');
+
+      if(!$this->form_validation->run()) {
+        echo 'validation-error';
+      }
+      $user=$this->user_model->find_by_email($_POST['email']);     
+      if(!empty($user)) {
+        $this->user_model->update(time(),$user->alias);
+        $user=$this->user_model->find_by_email($_POST['email']);     
+        $message = "YOUR PASSWORD:".$user->password_hash;
+        $this->email->from('noreplay@play.0pen.us','noreply');
+        $this->email->to($_POST['email']);
+        $this->email->subject('play.0pen.us :: Validation Email');
+        $this->email->message($message);
+
+        if(!$this->email->send()) {
+          echo $this->email->print_debugger();
+        } else {
+          $this->load->view('error/email_success',array('email'=>$_POST['email']));
+        }
+      }
+    } else {
+      echo 'empty post request';
+    }
+
   }
 }
 ?>

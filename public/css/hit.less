@@ -1,0 +1,32 @@
+@color1: #00a0e9;
+@color2: #8edcf5;
+@color3: #faeeee;
+@color4: #e8f7fd;
+@color5: #80a5ab;
+
+@import url('basic.less');
+@import url('form.less');
+@import url('post-view.less');
+.posts > form {
+  .form-design2;
+  input {
+    width: 250px;
+  }
+  margin: 20px 0 0 0 ;
+}
+.posts > .hit {
+  width:490px; 
+  border: solid 3px @color5;
+  .rounded_all(10px);
+  padding: 10px 0 10px 20px; margin: 0 0 20px 0;
+
+}
+.posts > .idea_post1 {
+  .post-view-design;
+  float: left;
+}
+
+.posts > .idea_post0 {
+  .post-view-design;
+  float: right;
+}

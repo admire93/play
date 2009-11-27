@@ -21,9 +21,8 @@ class PostModel extends Model
     }
     if($posting && $tag && $music) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
   public function create_post($post)
   {
@@ -82,7 +81,7 @@ class PostModel extends Model
   public function random()
   {
     $query=$this->db->query('
-                             select p.*,u.alias 
+                             select p.*,u.alias as author 
                              from play_post p 
                              inner join play_user u
                              on p.user_id = u.id
@@ -96,9 +95,18 @@ class PostModel extends Model
     }
     return $r_query;
   }
-  public function find_by_created_at($data)
+  public function search_by_tag($tag)
   {
-    $data = strtr($data,'#',' ');
-  }
+    $query = $this->db->query('select * 
+                               from play_post p
+                               inner join play_tag t
+                               on p.id = t.post_id
+                               where t.body like \'%'.$tag.'%\'
+                              ');
+    $query = $query->result();
+    if(empty($query)) {
+      return;
+    }
+    return $query; }
 }
 ?>

@@ -1,0 +1,72 @@
+@color1: #00a0e9;
+@color2: #8edcf5;
+@color3: #faeeee;
+@color4: #e8f7fd;
+@color5: #aaa;
+
+@import url('rounded.less');
+
+.post-view-design {
+  float: left;
+  width:490px; 
+  border: solid 3px @color2;
+  .rounded_all(10px);
+  padding: 10px 0 10px 20px; margin: 0 0 20px 0;
+.author {
+  font-size: 1.4em;
+  font-weight: bold;
+  float: left;
+}
+.time {
+  float: left;
+  margin: 8px 0 0 2px; padding:0;
+  font-size: small;
+}
+.body {
+  clear: left;
+  float: left;
+  letter-spacing: 0.1em;
+  line-height: 120%;
+  margin: 20px 15px 20px 0; padding:0;
+}
+.tag {
+  clear: left;
+  font-size: medium;
+  margin-bottom: 5px;
+}
+.tag > a {
+  color: @color5;
+  text-decoration: none;
+}
+.tag > a:hover {
+  text-decoration: underline;
+}
+.music {
+  clear: left;
+  overflow: hidden;
+  float: left;
+  margin:0; padding: 0 5px 0 0;
+  width: 150px; height: 30px;
+  span {
+    display: block;
+  }
+  span.music-name{
+    width: 100px; height: 30px;
+    float: left;
+  }
+  span.notice {
+    float: left;
+  }
+  form {
+    display: block;
+    width: 30px; height: 30px;
+    float: right;
+    margin: 0 0 0 10px;
+  }
+  }
+  .comments {
+    float: right; 
+    width: 220px;
+    margin-left: 10px; padding: 0;
+  }
+}

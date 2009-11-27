@@ -7,7 +7,7 @@ class Hit extends Controller
   {
     parent::Controller();
     $this->user_id = $this->get_user_id();
-    $this->load->helper('url');
+    $this->load->helper(array('html','form','url','asset'));
 
     if(empty($this->user_id)) {
       redirect('/');
@@ -26,9 +26,7 @@ class Hit extends Controller
     $this->load->model('usermodel','user');
     $hit = $this->hit->get_hit_post_by_name($board_url);
 
-    if(empty($board_url)) {
-      $this->load->view('hit/view',array('hits'=>$hit));
-    } else if(!empty($board_title) && empty($hit)) {
+    if(empty($board_url) || (!empty($board_title) && empty($hit))) {
       $data = array('notice' => '찾을 수없는 hit-board 입니다');
       $this->load->view('hit/cannot_found',$data); 
     } else {
@@ -72,12 +70,6 @@ class Hit extends Controller
     $tops = $this->hit->find_top_board();
     $data = array('tops'=>$tops);
     $this->load->view('hit/top_board',$data);
-  }
-  public function top_music()
-  {
-    $this->load->model('musicmodel','music');
-    $tops = $this->music->find_top_music();
-    $this->load->view('hit/top_music',array('tops'=>$tops));
   }
 }
 ?>

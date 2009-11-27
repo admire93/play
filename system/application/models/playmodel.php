@@ -14,16 +14,31 @@ class PlayModel extends Model
       return $query->result();
     }
   }
-  public function get_board_posts($board_title,$limit = '',$offset=0)
+  public function get_board_posts($board_title,$limit = 0,$offset=0)
   {
-    $offset = $offset >= 5 ? 0 : $offset;
-
+    $offset = $offset <= 5 ? 0 : $offset;
     $board = $this->find_by_title($board_title);
-    $this->db->order_by('created_at','desc');
-    if(empty($limit)) {
-      $query=$this->db->get_where('play_post',array('board_id'=>$board[0]->id));
+    if(!$limit) {
+      $query=$this->db->query('
+                             select p.*,u.alias as author
+                             from play_post p 
+                             inner join play_user u
+                             on p.user_id = u.id
+                             where p.board_id = '.$board[0]->id.'
+                             order by created_at desc
+                            ');
+      #$this->db->get_where('play_post',array('board_id'=>$board[0]->id));
     } else {
-      $query=$this->db->get_where('play_post',array('board_id'=>$board[0]->id),$limit,$offset);
+      $query=$this->db->query('
+                               select p.*,u.alias as author
+                               from play_post p 
+                               inner join play_user u
+                               on p.user_id = u.id
+                               where p.board_id = '.$board[0]->id.'
+                               order by created_at desc
+                               limit '.$offset.','.$limit
+                              );
+      #$query=$this->db->get_where('play_post',array('board_id'=>$board[0]->id),$limit,$offset);
     }
     return $query->result();
   }
@@ -49,6 +64,19 @@ class PlayModel extends Model
     $this->db->from('play_post');
     $count_post = $this->db->count_all_results();
     return $count_post;
+  }
+  public function search_by_title($title) 
+  {
+    $query = $this->db->query('select *
+                               from play_board
+                               where title like \'%'.$title.'%\' 
+                                     or
+                                     url_name like \'%'.$title.'%\'');
+    $query = $query->result();
+    if(empty($query)) {
+      return; 
+    }
+    return $query;
   }
 }
 ?>

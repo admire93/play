@@ -1,38 +1,26 @@
-* {
-  margin:0;padding:0;
-}
-body {
-  background: #000000;
-}
-body > #wrap {
-  width: 540px; height: 600px;
-  background: transparent url('http://play.0pen.us/public/img/background.png') no-repeat top left; 
-  margin: 0 auto;
-}
+@color1: #00a0e9;
+@color2: #8edcf5;
+@color3: #faeeee;
+@color4: #e8f7fd;
+@color5: #80a5ab;
 
-body > #wrap > #header {
-  width: 540px; height: 25px;
-  background-color: #000;
-  color: #fff;
-  margin:0;padding:5px 0px;
-  span {
-    display:block;
-    width: 250px; height:25px;
-    float: right; 
+@import url('basic.less');
+@import url('form.less');
+@import url('post-view.less');
+
+.search-form {
+}
+#wrap > #body {
+  form.login {
+    .form-login; 
   }
-  h1 {
-    width: 100px; height: 25px;
-    overflow: hidden;
-    text-indent: -5000px;
-    a {
-      width: 100px; height: 20px;
-      margin:5px 5px;padding:0;
-      background: transparent url('http://play.0pen.us/public/img/typography.png') no-repeat top left;
-      display:block;
-    }
-  }
-  
 }
-
-  
-
+#wrap > #body > #container > .posts > form.post-form {
+  .form-design2; 
+}
+.posts > form.search {
+  .form-design;
+}
+.posts > .post {
+  .post-view-design;
+}

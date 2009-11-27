@@ -26,15 +26,16 @@ class Login extends Controller
       redirect('/error/wrong');
     }
   }
-  public function recheck()
-  {
-    echo "recheck";
-  }
   public function out()
   {
     $this->session->unset_userdata('user_id'); 
     $this->session->unset_userdata('alias');
     redirect('/play');
+  }
+  public function who_am_i()
+  {
+    $user = $this->user_model->find($this->get_user_id());
+    echo $user->alias;
   }
 }
 ?>
